@@ -29,7 +29,7 @@ class App extends Component {
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
+      // Add a new message to the list of messages in the data store*******NEW MESSAGE RECEIVED HERE??
       const newMessage = { id: 3, username: "Michelle", content: "Hello there!" };
       const messages = this.state.messages.concat(newMessage)
       // Update the state of the app component.
@@ -38,8 +38,8 @@ class App extends Component {
     }, 3000);
   }
 
-
   render() {
+    console.log('Rendering <App />')
     return (
       <div>
       <nav className="navbar">
@@ -50,6 +50,17 @@ class App extends Component {
       </div>
     );
   }
+
+
+  // Creates a new message object
+  // _newMessage = ()
+
+  // Generates a random message Id
+  // _generateRandomId = () => {
+  //   const id = Math.Floor(Math.Random() * (1, 000, 000 - 1) + 1)
+  //   return id
+  // }
+
 }
 export default App;
 
