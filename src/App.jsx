@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
+// App component is responsible for the main application state
 class App extends Component {
 
   constructor(props) {
@@ -53,11 +54,20 @@ class App extends Component {
 
 
   // Creates a new message object
-  // _newMessage = ()
+  // _newMessage = (username, content)
+    // Username validation
+      // If username is submitted, --> submitted username
+      // Else if currentUser is true, --> currentUser.name
+      // Else (no submited username, currentUser not defined) -- > Anonymous
+    // Message validation
+      // Allow blank messages?
+    // Generate id from _generateRandomId function
+
+
 
   // Generates a random message Id
   // _generateRandomId = () => {
-  //   const id = Math.Floor(Math.Random() * (1, 000, 000 - 1) + 1)
+  //   const id = Math.Floor(Math.Random() * (1000000 - 1) + 1)
   //   return id
   // }
 
