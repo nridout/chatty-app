@@ -40,9 +40,8 @@ class ChatBar extends Component {
 
   // Handle input change by updating username & content state
   _handleInputChange = (event) => {
-    const target = event.target
-    const value = target.value
-    const name = target.name
+    const value = event.target.value
+    const name = event.target.name
 
     this.setState({ [name]: value})
   }
@@ -66,6 +65,7 @@ class ChatBar extends Component {
       // }
       // Send newMessage
       ws.send(JSON.stringify({
+        type: 'sendMessage',
         username: username,
         content: content,
       }))
