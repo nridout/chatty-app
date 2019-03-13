@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 // Chatbar conponent renders Username and Content input fields
 // Username value defaults to "Username" prop from app
 // Username input and Content input fields accept values on enter,
-// Reset state to trigger render, and pass values to the App Component
+// reset state to trigger render, and pass values to the App Component
 class ChatBar extends Component {
 
   constructor(props) {
@@ -22,46 +22,40 @@ class ChatBar extends Component {
     return (
       <footer className="chatbar">
         <input className="chatbar-username"
+          name="username"
           value={this.state.username}
           placeholder={this.props.currentUser}
-          onChange={this._handleUsernameChange}
-          onKeyPress={this._handleUsernameKeyPress}
+          onChange={this._handleInputChange}
+          onKeyPress={this._handleKeyPress}
         />
         <input className="chatbar-message"
+          name="content"
           value={this.state.content}
           placeholder="Type a message and hit ENTER"
-          onChange={this._handleContentChange}
-          onKeyPress={this._handleContentKeyPress}
+          onChange={this._handleInputChange}
+          onKeyPress={this._handleKeyPress}
          />
       </footer>
     )
   }
 
-  // Handle username change event by updating the state
-  _handleUsernameChange = (event) => {
-    this.setState({ username: event.target.value})
+  // Handle input change by updating username & content state
+  _handleInputChange = (event) => {
+    const target = event.target
+    const value = target.value
+    const name = target.name
+
+    this.setState({ [name]: value})
+    console.log(this.state)
   }
 
-  // Handle username submission on Enter
+  // Handle message submission on Enter
   // Send the username to app & clear input value
-  _handleUsernameKeyPress = (event) => {
-    if (event.key == 'Enter') {
-      console.log('enter press for Username! ')
-      this.setState({ username: '' })
-    }
-  }
-
-  // Handle new message content by updating the state
-  _handleContentChange = (event) => {
-    this.setState({ content: event.target.value })
-  }
-
-  // Handle new message submission on Enter
-  // Send the username to app & clear input value
-  _handleContentKeyPress = (event) => {
-    if (event.key == 'Enter') {
-      console.log('enter press for Content! ')
-      this.setState({ content: '' })
+  _handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      // this.props.newMessage(this.state.username, this.state.content)
+      console.log('Message submitted!')
+      this.setState({ username: '', content: '' })
     }
   }
 
