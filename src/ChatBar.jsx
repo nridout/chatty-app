@@ -61,18 +61,14 @@ class ChatBar extends Component {
       else if (!username && this.props.currentUser) {
         username = this.props.currentUser
       }
-      else {
-        this.setState({ currentUser: this.state.username });
-      }
-      // Construct new message
-      const newMessage = {
-        type: 'sendMessage',
+      // else {
+      //   this.setState({ currentUser: this.state.username });
+      // }
+      // Send newMessage
+      ws.send(JSON.stringify({
         username: username,
         content: content,
-        id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
-      }
-      // Send newMessage
-      ws.send(JSON.stringify(newMessage))
+      }))
 
       this.setState({ username: '', content: '' })
     }
