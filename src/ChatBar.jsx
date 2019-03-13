@@ -18,7 +18,6 @@ class ChatBar extends Component {
   render() {
     // Console Log render of Chatbar component
     console.log('Rendering <Chatbar />')
-    console.log(this.state)
     return (
       <footer className="chatbar">
         <input className="chatbar-username"
@@ -48,14 +47,14 @@ class ChatBar extends Component {
     this.setState({ [name]: value})
   }
 
-  // Handle message submission on Enter
-  // Determines what to display for username
-  // Send the username to app & clear input value
+  // On Enter, determine username, create newMessage object,
+  // send object to server, & clear input by restting state
   _handleKeyPress = (event) => {
+    const ws = this.props.socket;
     if (event.key === 'Enter') {
       let username = this.state.username
       let content = this.state.content
-
+      // Determines what to send for username
       if (!username && !this.props.currentUser) {
         username = 'Anonymous'
       }
@@ -65,8 +64,16 @@ class ChatBar extends Component {
       else {
         this.setState({ currentUser: this.state.username });
       }
+      // Construct new message
+      const newMessage = {
+        type: 'sendMessage',
+        username: username,
+        content: content,
+        id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+      }
+      // Send newMessage
+      ws.send(JSON.stringify(newMessage))
 
-      this.props._addMessage(username, content)
       this.setState({ username: '', content: '' })
     }
   }

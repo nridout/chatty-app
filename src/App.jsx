@@ -30,7 +30,7 @@ class App extends Component {
     console.log("componentDidMount <App />");
     setTimeout(() => {
       this.socket = new WebSocket('ws://localhost:3001')
-      console.log('Connected tgit o server')
+      console.log('Connected to server')
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
       const newMessage = { id: 3, username: "Michelle", content: "Hello there!" };
@@ -49,7 +49,7 @@ class App extends Component {
         <a href="/" className="navbar-brand">Chatty</a>
       </nav>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser.name} _addMessage={this._addMessage} />
+        <ChatBar currentUser={this.state.currentUser.name} _addMessage={this._addMessage} socket={this.socket}/>
       </div>
     );
   }
@@ -67,6 +67,7 @@ class App extends Component {
     const newMessageList = [...prevMessageList, newMessage]
     this.setState({ messages: newMessageList });
   }
+
 
 
 }
