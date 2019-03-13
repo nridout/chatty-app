@@ -46,15 +46,27 @@ class ChatBar extends Component {
     const name = target.name
 
     this.setState({ [name]: value})
-    console.log(this.state)
   }
 
   // Handle message submission on Enter
+  // Determines what to display for username
   // Send the username to app & clear input value
   _handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      // this.props.newMessage(this.state.username, this.state.content)
-      console.log('Message submitted!')
+      let username = this.state.username
+      let content = this.state.content
+
+      if (!username && !this.props.currentUser) {
+        username = 'Anonymous'
+      }
+      else if (!username && this.props.currentUser) {
+        username = this.props.currentUser
+      }
+      else {
+        this.setState({ currentUser: this.state.username });
+      }
+
+      this.props._addMessage(username, content)
       this.setState({ username: '', content: '' })
     }
   }
