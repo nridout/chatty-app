@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 
 // Chatbar conponent renders Username and Content input fields
-// Username value defaults to "Username" prop from app
 // Username input and Content input fields accept values on enter,
 // reset state to trigger render, and pass values to the App Component
 class ChatBar extends Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
       username: '',
       content: '',
@@ -22,6 +20,7 @@ class ChatBar extends Component {
         <input className="chatbar-username"
           name="username"
           value={this.state.username}
+          // Username value defaults to "Username" prop from app component
           placeholder={this.props.currentUser}
           onChange={this._handleInputChange}
           onKeyPress={this._handleKeyPress}
@@ -51,7 +50,10 @@ class ChatBar extends Component {
     if (event.key === 'Enter') {
       let username = (this.state.username || this.props.currentUser)
       let content = this.state.content
-      this.props.addMessage(username, content)
+      this.props.updateUsername(username)
+      if (content !== '') {
+        this.props.addMessage(username, content)
+      }
       this.setState({ username: '', content: '' })
     }
   }
