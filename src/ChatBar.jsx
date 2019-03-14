@@ -50,6 +50,7 @@ class ChatBar extends Component {
     if (event.key === 'Enter') {
       let username = (this.state.username || this.props.currentUser)
       let content = this.state.content
+      // ** Think about handling users changing from default anon username **
       this.props.updateUsername(username)
       if (content !== '') {
         this.props.addMessage(username, content)
