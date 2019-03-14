@@ -5,7 +5,7 @@ const SocketServer = require('ws').Server
 const uuidv1 = require('uuid/v1')
 
 // Set the port to 3001
-const PORT = 3001;
+const PORT = 3001
 
 // Create a new express server
 const server = express()
@@ -21,6 +21,8 @@ const wss = new SocketServer({ server })
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected')
+  sendUpdatedUserCount(wss.clients.size)
+
   // Handle incoming messages
   ws.on('message', function incoming(message) {
     console.log('received: %s', message)
@@ -31,12 +33,11 @@ wss.on('connection', (ws) => {
     switch (parsedMessage.type) {
       case 'postMessage':
         parsedMessage.type = 'incomingMessage'
-        break;
+        break
       case 'postNotification':
         parsedMessage.type = 'incomingNotification'
-        break;
+        break
       default:
-        // Else, show error in console
         throw new Error('Unknown event type' + parsedMessage.type)
     }
     console.log('Message ready to send', parsedMessage)
@@ -44,9 +45,26 @@ wss.on('connection', (ws) => {
     wss.clients.forEach(function each(client) {
         client.send(JSON.stringify(parsedMessage))
     })
-
   })
 
+
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
-});
+  ws.on('close', () => {
+    console.log('Client disconnected.')
+    sendUpdatedUserCount(wss.clients.size)
+  })
+
+  // Function that sends the updated user count to the clients
+  function sendUpdatedUserCount(count) {
+    const userCount = {
+      type: 'incomingUserCount',
+      count: count
+    }
+    wss.clients.forEach(function each(client) {
+      console.log('Sent num of users:', userCount)
+      client.send(JSON.stringify(userCount))
+    })
+  }
+
+})
+
