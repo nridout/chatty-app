@@ -10,7 +10,7 @@ class App extends Component {
 
     this.state = {
       loading: true,
-      currentUser: { name: 'Bob'},
+      currentUser: { name: 'Anonymous'},
       messages: []
     };
   }
@@ -19,20 +19,18 @@ class App extends Component {
     console.log('componentDidMount <App />')
 
     setTimeout(() => {
-      // Create WebSocket connection
       this.socket = new WebSocket('ws://localhost:3001')
-      // Open Connection
+      // Open WebSocket Connection
       this.socket.addEventListener('open', (event) => {
         console.log('Connected to server')
       })
       // Listen for incoming messages
       this.socket.addEventListener('message', (event) => {
         console.log('Simulating incoming message', event.data);
-        // Add a new message to the list of messages in the data store
+        // Add new incoming messages to the list of messages in the data store
         const newMessage = JSON.parse(event.data)
         const messages = this.state.messages.concat(newMessage)
-        // Update the state of the app component.
-        // Calling setState will trigger a call to render() in App and all child components.
+        // Update the state of the app component
         this.setState({ messages: messages })
       })
     }, 3000);
@@ -46,12 +44,13 @@ class App extends Component {
         <a href="/" className="navbar-brand">Chatty</a>
       </nav>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser.name} addMessage={this._addMessage} socket={this.socket}/>
+        <ChatBar currentUser={this.state.currentUser.name} addMessage={this._addMessage} />
       </div>
     );
   }
 
   // Creates a new message object & sends to server
+  // Resets state of username to submitted username
   _addMessage = (username, content) => {
     const newMessage = {
       type: 'incomingMessage',
@@ -59,6 +58,7 @@ class App extends Component {
       content: content,
     }
     this.socket.send(JSON.stringify(newMessage))
+    this.setState({currentUser: { name: username } })
   }
 
 }

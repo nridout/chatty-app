@@ -8,10 +8,10 @@ class ChatBar extends Component {
 
   constructor(props) {
     super(props)
-    // set the initial state of the username & content as null
+
     this.state = {
       username: '',
-      content: ''
+      content: '',
     }
   }
 
@@ -44,9 +44,9 @@ class ChatBar extends Component {
     this.setState({ [name]: value})
   }
 
-  // On Enter, determine username,
+  // On Enter, determine if username has changed,
   // send username & message content to server
-  // & clear input by restting state
+  // & clear input by resetting state
   _handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       let username = (this.state.username || this.props.currentUser)

@@ -24,12 +24,12 @@ wss.on('connection', (ws) => {
   // Handle incoming messages
   ws.on('message', function incoming(message) {
     console.log('received: %s', message)
-    // Parse incoming message
+    // Parse new message
     let parsedMessage = JSON.parse(message)
-    // Set each message with an id
+    // Set message with a uuid
     parsedMessage.id = uuidv1()
-    console.log('Message at server', parsedMessage)
-    // Send message to all connected clients
+    console.log('Message ready to send', parsedMessage)
+    // Send new message to all connected clients
     wss.clients.forEach(function each(client) {
         client.send(JSON.stringify(parsedMessage))
     })
