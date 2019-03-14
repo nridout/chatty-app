@@ -43,7 +43,9 @@ body {
   padding: 5px;
 }
 
-.message.system {
+.notification {
+  display: flex;
+  padding: 5px;
   font-style: italic;
   padding: 5px 20px;
 }
