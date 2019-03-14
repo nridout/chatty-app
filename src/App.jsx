@@ -11,7 +11,8 @@ class App extends Component {
     this.state = {
       loading: true,
       currentUser: { name: 'Anonymous'},
-      messages: []
+      messages: [],
+      userCount: 0
     };
   }
 
@@ -38,8 +39,9 @@ class App extends Component {
             data.type = 'notification'
             this._updateMessageList(data)
           break
+          case 'incomingUserCount':
+            this._updateUserCount(data)
           default:
-          // Else, show error in console
           throw new Error('Unknown event type' + data.type)
         }
       })
@@ -52,6 +54,7 @@ class App extends Component {
       <div>
       <nav className="navbar">
         <a href="/" className="navbar-brand">Chatty</a>
+        <div className="userCount">{this.state.userCount} users online</div>
       </nav>
         <MessageList messages={this.state.messages} />
         <ChatBar currentUser={this.state.currentUser.name} addMessage={this._addMessage} updateUsername={this._updateUsername} />
@@ -89,6 +92,13 @@ class App extends Component {
     const messages = this.state.messages.concat(message)
     // Update the state of the app component
     this.setState({ messages: messages })
+  }
+
+  // Update the userCount
+  _updateUserCount = (message) => {
+    const count = message.count
+    // Update the state of the userCount
+    this.setState({ userCount: count })
   }
 
 }
