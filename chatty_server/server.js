@@ -28,6 +28,17 @@ wss.on('connection', (ws) => {
     let parsedMessage = JSON.parse(message)
     // Set message with a uuid
     parsedMessage.id = uuidv1()
+    switch (parsedMessage.type) {
+      case 'postMessage':
+        parsedMessage.type = 'incomingMessage'
+        break;
+      case 'postNotification':
+        parsedMessage.type = 'incomingNotification'
+        break;
+      default:
+        // Else, show error in console
+        throw new Error('Unknown event type' + parsedMessage.type)
+    }
     console.log('Message ready to send', parsedMessage)
     // Send new message to all connected clients
     wss.clients.forEach(function each(client) {
