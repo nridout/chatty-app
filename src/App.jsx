@@ -10,7 +10,7 @@ class App extends Component {
 
     this.state = {
       loading: true,
-      currentUser: { name: 'Anonymous'},
+      currentUser: {name: 'Anonymous'},
       messages: [],
       userCount: 0
     };
@@ -33,6 +33,7 @@ class App extends Component {
         switch(data.type) {
           case 'incomingMessage':
             data.type = 'message'
+            console.log(data.color)
             this._updateMessageList(data)
           break
           case 'incomingNotification':
@@ -42,7 +43,7 @@ class App extends Component {
           case 'incomingUserCount':
             this._updateUserCount(data)
           default:
-          throw new Error('Unknown event type' + data.type)
+          throw new Error('Unknown event type ' + data.type)
         }
       })
     }, 3000);

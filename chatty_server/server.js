@@ -3,6 +3,8 @@
 const express = require('express')
 const SocketServer = require('ws').Server
 const uuidv1 = require('uuid/v1')
+var randomColor = require('random-color')
+
 
 // Set the port to 3001
 const PORT = 3001
@@ -16,12 +18,19 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server })
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
+// Store user:color pairs in a object
+let userColor = {};
+
+// When a client connects to the server they are assigned a socket,
+// represented by the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected')
   sendUpdatedUserCount(wss.clients.size)
+
+  // Create a unique id for the new client
+  // and pair the id with a random color
+  const clientId = uuidv1()
+  userColor[clientId] = randomColor().hexString()
 
   // Handle incoming messages
   ws.on('message', function incoming(message) {
@@ -30,6 +39,8 @@ wss.on('connection', (ws) => {
     let parsedMessage = JSON.parse(message)
     // Set message with a uuid
     parsedMessage.id = uuidv1()
+    // Apply the user's color and attached to outgoing message
+    parsedMessage.color = userColor[clientId]
     switch (parsedMessage.type) {
       case 'postMessage':
         parsedMessage.type = 'incomingMessage'
@@ -61,6 +72,7 @@ wss.on('connection', (ws) => {
       count: count
     }
     wss.clients.forEach(function each(client) {
+      // delete userColor[clientId];
       console.log('Sent num of users:', userCount)
       client.send(JSON.stringify(userCount))
     })
