@@ -42,6 +42,7 @@ class App extends Component {
           break
           case 'incomingUserCount':
             this._updateUserCount(data)
+          break
           default:
           throw new Error('Unknown event type ' + data.type)
         }

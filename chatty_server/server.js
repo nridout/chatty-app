@@ -19,7 +19,10 @@ const server = express()
 const wss = new SocketServer({ server })
 
 // Store user:color pairs in a object
-let userColor = {};
+const userColor = {};
+
+// Reference string for images
+const re = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/i;
 
 // When a client connects to the server they are assigned a socket,
 // represented by the ws parameter in the callback.
@@ -37,12 +40,14 @@ wss.on('connection', (ws) => {
     console.log('received: %s', message)
     // Parse new message
     let parsedMessage = JSON.parse(message)
-    // Set message with a uuid
-    parsedMessage.id = uuidv1()
-    // Apply the user's color and attached to outgoing message
-    parsedMessage.color = userColor[clientId]
+
     switch (parsedMessage.type) {
       case 'postMessage':
+        // Check if the incoming message content contains http:// && any of these: jpg, png, gif
+        // if it does, add an image property to be rendered
+        if (parsedMessage.content.match(re)) {
+          parsedMessage.image = true
+        }
         parsedMessage.type = 'incomingMessage'
         break
       case 'postNotification':
@@ -51,6 +56,10 @@ wss.on('connection', (ws) => {
       default:
         throw new Error('Unknown event type' + parsedMessage.type)
     }
+    // Set message with a uuid
+    parsedMessage.id = uuidv1()
+    // Apply the user's color and attached to outgoing message
+    parsedMessage.color = userColor[clientId]
     console.log('Message ready to send', parsedMessage)
     // Send new message to all connected clients
     wss.clients.forEach(function each(client) {

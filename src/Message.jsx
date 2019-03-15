@@ -4,11 +4,15 @@ class Message extends Component {
   render() {
     console.log('Rendering <Message />')
     // *** Think about how to "turn off" the username div when its a system message
-    // *** Add the style color to the username using "style" tag
+    // *** Need to do the same for photos
+    // if this.props.message.type, show this? else hide?
+    const messageType = this.props.message.type
+    const isImage = this.props.message.image
     return (
-      <div className={this.props.message.type}>
-        <span className={this.props.message.type + '-username'} style={{color: this.props.message.color}}>{this.props.message.username}</span>
-        <span className={this.props.message.type + '-content'}>{this.props.message.content}</span>
+      <div className={messageType}>
+        <span className={messageType + '-username'} style={{color: this.props.message.color}}>{this.props.message.username}</span>
+        <span className={isImage? ('hide') : (messageType + '-content')}>{this.props.message.content}</span>
+        <img className={isImage ? 'image' : 'hide'} src={this.props.message.content} />
       </div>
     );
   }

@@ -75,6 +75,17 @@ body {
       font-weight: 700;
     }
 
+    .image {
+      max-width: 60vw;
+      overflow: hidden;
+      margin: 5px;
+      padding: 0 10px;
+    }
+
+    .hide {
+      display: none;
+    }
+
   }
 
   .chatbar {
