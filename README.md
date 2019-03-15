@@ -9,6 +9,11 @@ A chat app with real-time functionality where the user does not have to reload t
 - a chat log displaying messages and notificaions
 - an input field to change your name and an input field to send a message
 
+### Screenshots
+
+!["Chatty App 1"](https://github.com/nridout/chatty-app/blob/master/docs/Chatty-app-1.png)
+!["Chatty App 1"](https://github.com/nridout/chatty-app/blob/master/docs/Chatty-app-2.png)
+
 ### User Functionality
 
 - When any connected user sends a chat message, all connected users receive and display the message
@@ -29,7 +34,7 @@ A chat app with real-time functionality where the user does not have to reload t
 
 ### Dependencies
 
-## Chatty App
+#### Chatty App
 
 * babel-core
 * babel-loader
@@ -48,7 +53,7 @@ A chat app with real-time functionality where the user does not have to reload t
 * eslint
 * eslint-plugin-react
 
-## Chatty Server
+#### Chatty Server
 
 * express
 * ws
