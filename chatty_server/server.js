@@ -77,6 +77,7 @@ wss.on('connection', (ws) => {
   // Set up a callback for when a client closes the socket.
   ws.on('close', () => {
     console.log('Client disconnected.')
+    delete userColor[clientId];
     sendUpdatedUserCount(wss.clients.size)
   })
 
@@ -87,7 +88,6 @@ wss.on('connection', (ws) => {
       count: count
     }
     wss.clients.forEach(function each(client) {
-      // delete userColor[clientId];
       console.log('Sent num of users:', userCount)
       client.send(JSON.stringify(userCount))
     })
