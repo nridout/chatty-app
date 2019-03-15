@@ -21,7 +21,7 @@ const wss = new SocketServer({ server })
 // Store user:color pairs in a object
 const userColor = {};
 
-// Reference string for images
+// Reference string for image urls
 const re = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/i;
 
 // When a client connects to the server they are assigned a socket,
@@ -46,7 +46,10 @@ wss.on('connection', (ws) => {
         // Check if the incoming message content contains http:// && any of these: jpg, png, gif
         // if it does, add an image property to be rendered
         if (parsedMessage.content.match(re)) {
-          parsedMessage.image = true
+          const imgURL = re.exec(parsedMessage.content)
+          const messageArr = parsedMessage.content.split(imgURL[0])
+          parsedMessage.image = imgURL[0]
+          parsedMessage.content = messageArr[0]
         }
         parsedMessage.type = 'incomingMessage'
         break
