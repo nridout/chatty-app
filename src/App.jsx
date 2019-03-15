@@ -17,7 +17,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount <App />')
     this._scrollToBottom();
 
     setTimeout(() => {
@@ -26,15 +25,15 @@ class App extends Component {
       this.socket.addEventListener('open', (event) => {
         console.log('Connected to server')
       })
+
       // Listen for incoming messages & notifications
       this.socket.addEventListener('message', (event) => {
-        console.log('Incoming data:', event.data);
         const data = JSON.parse(event.data)
+
         // Handle incoming message types
         switch(data.type) {
           case 'incomingMessage':
             data.type = 'message'
-            console.log(data.color)
             this._updateMessageList(data)
           break
           case 'incomingNotification':
@@ -52,7 +51,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('Rendering <App />')
     return (
       <div>
       <nav className="navbar">
@@ -69,14 +67,13 @@ class App extends Component {
     );
   }
 
-  // Create a postmessage object & send to server
+  // Create a postMessage object & send to server
   _addMessage = (username, content) => {
     const newMessage = {
       type: 'postMessage',
       username: username,
       content: content,
     }
-    console.log('New message sent to server:', newMessage)
     this.socket.send(JSON.stringify(newMessage))
   }
 
@@ -88,7 +85,6 @@ class App extends Component {
         type: 'postNotification',
         content: `${this.state.currentUser.name} has changed their name to ${username}`
       }
-      console.log('New notification sent to server:', newNotification)
       this.socket.send(JSON.stringify(newNotification))
       this.setState({ currentUser: { name: username } })
     }
@@ -109,6 +105,7 @@ class App extends Component {
     this.setState({ userCount: count })
   }
 
+  // Scroll to the bottom of the page
   _scrollToBottom = () => {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   }

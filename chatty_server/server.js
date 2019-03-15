@@ -41,16 +41,18 @@ wss.on('connection', (ws) => {
     // Parse new message
     let parsedMessage = JSON.parse(message)
 
+    // Handle different message types
     switch (parsedMessage.type) {
       case 'postMessage':
         // Check if the incoming message content contains http:// && any of these: jpg, png, gif
-        // if it does, add an image property to be rendered
+        // If it does, add an image property to be rendered, and split the message from the url
         if (parsedMessage.content.match(re)) {
           const imgURL = re.exec(parsedMessage.content)
           const messageArr = parsedMessage.content.split(imgURL[0])
           parsedMessage.image = imgURL[0]
           parsedMessage.content = messageArr[0]
         }
+        // Otherwise just update the type and send the unaltered content
         parsedMessage.type = 'incomingMessage'
         break
       case 'postNotification':
@@ -59,19 +61,20 @@ wss.on('connection', (ws) => {
       default:
         throw new Error('Unknown event type' + parsedMessage.type)
     }
+
     // Set message with a uuid
     parsedMessage.id = uuidv1()
     // Apply the user's color and attached to outgoing message
     parsedMessage.color = userColor[clientId]
-    console.log('Message ready to send', parsedMessage)
     // Send new message to all connected clients
     wss.clients.forEach(function each(client) {
         client.send(JSON.stringify(parsedMessage))
     })
+
   })
 
 
-  // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+  // Set up a callback for when a client closes the socket.
   ws.on('close', () => {
     console.log('Client disconnected.')
     sendUpdatedUserCount(wss.clients.size)
