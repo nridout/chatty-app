@@ -1,16 +1,20 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
+$green: #3FCF92;
+$grey: #202020;
+$darkgreen: rgb(44, 151, 105);
+$lightgrey: rgb(253, 251, 251);
+
 body {
-  background: white;
-  color: black;
+  background: $lightgrey;
+  color: $grey;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   margin: 70px 0;
 
   .navbar {
-    background: tomato;
-    border-bottom: 1px solid black;
+    background: $green;
     height: 60px;
     left: 0;
     padding: 0 10px;
@@ -59,15 +63,17 @@ body {
     display: flex;
     padding: 5px;
 
+    .message-group {
+      flex: 8;
+      margin: 5px;
+      padding: 0 10px;
+    }
+
     .message-content,
     .message-username {
       overflow: hidden;
       margin: 5px;
       padding: 0 10px;
-    }
-
-    .message-content {
-      flex: 8;
     }
 
     .message-username {
@@ -76,10 +82,11 @@ body {
     }
 
     .image {
-      max-width: 60vw;
-      overflow: hidden;
-      margin: 5px;
-      padding: 0 10px;
+    max-width: 40vw;
+    overflow: hidden;
+    margin: 5px;
+    padding: 0 10px;
+    object-fit: contain;
     }
 
     .hide {
@@ -89,8 +96,7 @@ body {
   }
 
   .chatbar {
-    background: tomato;
-    border-top: 1px solid black;
+    background: $green;
     bottom: 0;
     display: flex;
     left: 0;
@@ -100,7 +106,6 @@ body {
 
     .chatbar-message,
     .chatbar-username {
-      border: 1px solid black;
       display: block;
       height: 40px;
       line-height: 40px;
