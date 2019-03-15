@@ -1,45 +1,57 @@
-React Boilerplate
+Chatty App
 =====================
 
-A minimal and light dev environment for ReactJS.
+A chat app with real-time functionality where the user does not have to reload the page in order to see updates. Primarily a client-side SPA built with ReactJS.
 
-### Usage
+### Page Components
 
-Clone the boilerplate and create your own git repo.
+- a navbar header that includes a chatroom user count that updates in real time
+- a chat log displaying messages and notificaions
+- an input field to change your name and an input field to send a message
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+### User Functionality
 
-Install the dependencies and start the server.
+- When any connected user sends a chat message, all connected users receive and display the message
+- When any connected user changes their name, all connected users are notified of the name change
+- Users are assigned different colors for their usernames
+- gifs, pngs and jpgs are accepted and rendered
+- Page auto scrolls to bottom when a new message is recieved
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+### Stack
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
+* Webpack with Babel
+* JSX
+* ES6
+* Webpack dev server
+* WebSockets using Node package ws on the server-side
+* native WebSocket on client side
+* ReactJS
 
 ### Dependencies
 
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+## Chatty App
+
+* babel-core
+* babel-loader
+* babel-preset-es2015
+* babel-preset-react
+* babel-preset-stage-0
+* css-loader
+* node-sass
+* sass-loader
+* sockjs-client
+* style-loader
+* webpack
+* webpack-dev-server
+* react
+* react-dom
+* eslint
+* eslint-plugin-react
+
+## Chatty Server
+
+* express
+* ws
+* uuid
+* random-color
+
