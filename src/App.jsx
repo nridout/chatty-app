@@ -18,6 +18,7 @@ class App extends Component {
 
   componentDidMount() {
     console.log('componentDidMount <App />')
+    this._scrollToBottom();
 
     setTimeout(() => {
       this.socket = new WebSocket('ws://localhost:3001')
@@ -59,6 +60,10 @@ class App extends Component {
         <div className="userCount">{this.state.userCount} users online</div>
       </nav>
         <MessageList messages={this.state.messages} />
+        {/* auto scroll to bottom of page */}
+        <div style={{ float: 'left', clear: 'both' }}
+          ref={(el) => { this.messagesEnd = el; }}>
+        </div>
         <ChatBar currentUser={this.state.currentUser.name} addMessage={this._addMessage} updateUsername={this._updateUsername} />
       </div>
     );
@@ -94,6 +99,7 @@ class App extends Component {
     const messages = this.state.messages.concat(message)
     // Update the state of the app component
     this.setState({ messages: messages })
+    this._scrollToBottom();
   }
 
   // Update the userCount
@@ -101,6 +107,10 @@ class App extends Component {
     const count = message.count
     // Update the state of the userCount
     this.setState({ userCount: count })
+  }
+
+  _scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   }
 
 }
