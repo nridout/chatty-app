@@ -7,12 +7,16 @@ class Message extends Component {
     // *** Need to do the same for photos
     // if this.props.message.type, show this? else hide?
     const messageType = this.props.message.type
-    const isImage = this.props.message.image
+    const image = this.props.message.image
+    const messageContent = this.props.message.content
     return (
       <div className={messageType}>
         <span className={messageType + '-username'} style={{color: this.props.message.color}}>{this.props.message.username}</span>
-        <span className={isImage? ('hide') : (messageType + '-content')}>{this.props.message.content}</span>
-        <img className={isImage ? 'image' : 'hide'} src={this.props.message.content} />
+        <div className="message-group">
+          { messageContent ? <span className={messageType + '-content'}> {messageContent} </span> : null }
+          { messageContent && image ? <br></br> : null }
+          { image ? <img className="image" src={image} /> : null}
+        </div>
       </div>
     );
   }
